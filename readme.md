@@ -20,6 +20,7 @@ Vue.use(DadataSuggestions);
   <div>
     <dadata-suggestions
                 :model.sync="myObject"
+                :fullInfo.sync="myObjectFull"
                 token="b2c49ff2d618faf4f30396c23d41d91b96b94496"
                 field-value="unrestricted_value"
                 type-dadata="ADDRESS"
@@ -32,7 +33,8 @@ import VueSuggestions from 'vue-suggestions';
  export default {
     data() {
       return {
-        myObject : ''
+        myObject : '',
+        myObjectFull:{}
       }
     },
     components: { VueSuggestions }
@@ -68,3 +70,7 @@ fieldValue - Указывает на поле, из которого нужно 
 Все другие ключи будут автоматически браться из поля data, из разширеной информации по результату. 
 
 **fullInfo** - В данное поле будет записана полная информация о резельтате поиска
+
+
+## License
+MIT © [yzen.dev](https://github.com/yzen-dev)
