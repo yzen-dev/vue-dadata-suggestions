@@ -14,8 +14,7 @@
   "author": "Andey Iatsenko <yzen.dev@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "jquery": "^3.2.1",
-    "suggestions-jquery": "^17.5.0"
+    "jquery": "^3.2.1"
   },
   "repository": {
     "type": "git",
