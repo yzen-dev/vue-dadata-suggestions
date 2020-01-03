@@ -19,12 +19,19 @@ Vue.use(DadataSuggestions);
 <template>
   <div>
     <dadata-suggestions
-                :model.sync="myObject"
-                :fullInfo.sync="myObjectFull"
-                token="b2c49ff2d618faf4f30396c23d41d91b96b94496"
-                field-value="unrestricted_value"
-                type-dadata="ADDRESS"
-        />
+        :model.sync="myObject"
+        :fullInfo.sync="myObjectFull"
+        token="YOUR_TOKEN"
+        type="ADDRESS"
+        field-value="unrestricted_value"
+    />
+  OR
+    <dadata-suggestions
+        v-model="myObject"
+        :fullInfo.sync="myObjectFull"
+        field-value="unrestricted_value"
+        :options="dadataOptions"
+    />
   </div>
 </template>
 <script>
@@ -34,7 +41,11 @@ import VueSuggestions from 'vue-suggestions';
     data() {
       return {
         myObject : '',
-        myObjectFull:{}
+        myObjectFull: {},
+        dadataOptions: {
+          token: 'YOUR_TOKEN', 
+          type:'ADDRESS'
+        }
       }
     },
     components: { VueSuggestions }
@@ -45,9 +56,14 @@ import VueSuggestions from 'vue-suggestions';
 
 С актуальным списком типов подсказов можете ознакомится на оф. сайте https://dadata.ru/suggestions/usage/
 
-typeDadata - Тип подсказок
+## Входные параметры 
+* **token** - API-ключ (Необязательный если его указали в **options**)
+* **type** - Тип подсказок (Необязательный если его указали в **options**)
+* **fieldValue** - Указывает на поле, из которого нужно получать данные 
+* **options** - Параметры плагина. Со списком можно ознакомится на [сайте](https://confluence.hflabs.ru/pages/viewpage.action?pageId=207454318)
+* **fullInfo** - В данное поле будет записана полная информация о резельтате поиска
 
-Виды typeDadata 
+Виды **type**
 * ADDRESS - [Список адресов](https://dadata.ru/suggestions/usage/address/)
 * PARTY - [Организации](https://dadata.ru/suggestions/usage/bank/)
 * BANK - [Банки](https://dadata.ru/suggestions/usage/bank/)
@@ -62,14 +78,12 @@ typeDadata - Тип подсказок
 * okved2 - [Виды деятельности (ОКВЭД 2)](https://dadata.ru/suggestions/outward/okved2/)
 * okpd2 - [Виды продукции (ОКПД 2)](https://dadata.ru/suggestions/outward/okpd2/)
 
-fieldValue - Указывает на поле, из которого нужно получать данные 
 
-Виды fieldValue 
+Виды **fieldValue**
 * **unrestricted_value** - Строковое значение, например **ОВД ЛЕНИНСКОГО РАЙОНА Г. ИВАНОВО**
 * **value** - Значение, результат поиска, например **370-000**
-Все другие ключи будут автоматически браться из поля data, из разширеной информации по результату. 
 
-**fullInfo** - В данное поле будет записана полная информация о резельтате поиска
+>**Все другие ключи будут автоматически браться из поля data, из разширеной информации по результату.**
 
 
 ## License

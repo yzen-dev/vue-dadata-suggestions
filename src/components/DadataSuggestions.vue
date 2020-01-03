@@ -2,7 +2,6 @@
     <input
             v-model="model"
             @change="$emit('change')"
-            :name="name"
             type="text"
             autocomplete="off"
     >
@@ -19,34 +18,52 @@
         type: String,
         default: '',
       },
+      /** Поле для хранения полной информации о результате */
       fullInfo: {},
+      /** Параметры для Дадата */
+      options: {},
+      /** API-ключ */
       token: {
-        required: true,
         type: String,
+        default: '',
       },
-      typeDadata: {
-        required: true,
+      /** Тип подсказок */
+      type: {
         type: String,
+        default: '',
       },
       fieldValue: {
+        type: String,
         default: 'value',
       },
     },
     data() {
       return {
         model: '',
-        name: '',
-        options: {
+        currentOptions: {},
+        defaultOptions: {
+          /** API-ключ */
           token: this.token,
+          /** Тип подсказок */
           type: this.typeDadata,
+          /** Прокручивать текстовое поле к верхней границе экрана при фокусе */
           scrollOnFocus: false,
+          /** Автоматически подставлять подходящую подсказку из списка, когда текстовое поле теряет фокус.*/
           triggerSelectOnBlur: false,
-          triggerSelectOnEnter: false,
-          addon: 'none',
+          /** Автоматически подставлять подходящую подсказку из списка при нажатии на Enter. */
+          triggerSelectOnEnter: true,
+          /** Что показывать в правом углу текстового поля подсказок */
+          addon: 'spinner',
         },
       };
     },
     created() {
+      if (!this.defaultOptions.token && !this.options.token) {
+        console.warn('Dadata: Необходимо указать API-токен');
+      }
+      if (!this.defaultOptions.type && !this.options.type) {
+        console.warn('Dadata: Необходимо указать тип подсказок');
+      }
     },
     mounted() {
       this.model = this.value;
@@ -64,20 +81,31 @@
       },
     },
     methods: {
+      /**
+       * Инициализация модуля
+       */
       initSuggestion() {
-        const options = Object.assign({}, this.options, {
+        this.currentOptions = Object.assign({}, this.defaultOptions);
+        if (this.options) {
+          this.currentOptions = Object.assign(this.currentOptions, this.options);
+        }
+        this.currentOptions = Object.assign(this.currentOptions, {
           onSelect: suggestion => {
             this.$emit('update:fullInfo', suggestion);
             this.$emit('change', suggestion);
-            this.onSelect(suggestion)
+            this.onSelect(suggestion);
           },
         });
-        $(this.$el).suggestions(options);
+        $(this.$el).suggestions(this.currentOptions);
       },
       destroySuggestion() {
         const plugin = $(this.$el).suggestions();
         plugin.dispose();
       },
+
+      /**
+       * Выбор элемента из списка
+       */
       onSelect(suggestion) {
         if (this.fieldValue === 'value' || this.fieldValue === 'unrestricted_value') {
           this.model = suggestion[this.fieldValue];
