@@ -1,6 +1,6 @@
 <template>
     <input
-            v-model="value"
+            v-model="model"
             @change="$emit('change')"
             :name="name"
             type="text"
@@ -15,8 +15,9 @@
   export default {
     name: 'DadataSuggestions',
     props: {
-      model: {
-        required: true,
+      value: {
+        type: String,
+        default: '',
       },
       fullInfo: {},
       token: {
@@ -33,7 +34,7 @@
     },
     data() {
       return {
-        value: '',
+        model: '',
         name: '',
         options: {
           token: this.token,
@@ -53,18 +54,18 @@
     },
     mounted() {
       this.callbacks = $.Callbacks();
-      this.value = this.model;
+      this.model = this.value;
       this.initSuggestion();
     },
     destroyed() {
       this.destroySuggestion();
     },
     watch: {
-      value() {
-        this.$emit('update:model', this.value);
-      },
       model() {
-        this.value = this.model;
+        this.$emit('input', this.model);
+      },
+      value() {
+        this.model = this.value;
       },
     },
     methods: {
@@ -86,10 +87,10 @@
       },
       onSelect(suggestion) {
         if (this.fieldValue === 'value' || this.fieldValue === 'unrestricted_value') {
-          this.value = suggestion[this.fieldValue];
+          this.model = suggestion[this.fieldValue];
         } else {
-          this.value = '';
-          this.value = suggestion.data[this.fieldValue];
+          this.model = '';
+          this.model = suggestion.data[this.fieldValue];
         }
       },
     },
