@@ -1,4 +1,4 @@
-import component from './DadataSuggestions.vue';
+import component from './components/DadataSuggestions.vue';
 
 const DadataSuggestions = {}
 DadataSuggestions.install = function(Vue, options){
