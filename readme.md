@@ -12,7 +12,18 @@ $ npm i vue-dadata-suggestions
 ```
 import DadataSuggestions from 'dadata-suggestions'
 
-Vue.use(DadataSuggestions);
+Vue.use(DadataSuggestions,{
+  token: 'YOUR_TOKEN',
+  type: 'ADDRESS'
+});
+
+...
+
+<dadata-suggestions
+    v-model="myObject"
+    :fullInfo.sync="myObjectFull"
+    field-value="unrestricted_value"
+/>
 ```
 **Или**
 ```

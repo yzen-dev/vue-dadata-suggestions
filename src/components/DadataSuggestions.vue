@@ -13,6 +13,7 @@
 
   export default {
     name: 'DadataSuggestions',
+    pluginOptions:{},
     props: {
       value: {
         type: String,
@@ -40,12 +41,13 @@
     data() {
       return {
         model: '',
-        currentOptions: {},
-        defaultOptions: {
+        currentOptions: {
           /** API-ключ */
-          token: this.token,
+          token: '',
           /** Тип подсказок */
-          type: this.typeDadata,
+          type: '',
+        },
+        defaultOptions: {
           /** Прокручивать текстовое поле к верхней границе экрана при фокусе */
           scrollOnFocus: false,
           /** Автоматически подставлять подходящую подсказку из списка, когда текстовое поле теряет фокус.*/
@@ -58,37 +60,29 @@
       };
     },
     created() {
-      if (!this.defaultOptions.token && !this.options.token) {
+      if (!this.currentOptions.token && (this.options && !this.options.token) && (this.$options.pluginOptions && !this.$options.pluginOptions.token)) {
         console.warn('Dadata: Необходимо указать API-токен');
       }
-      if (!this.defaultOptions.type && !this.options.type) {
+
+      if (!this.currentOptions.type && (this.options && !this.options.type) && (this.$options.pluginOptions && !this.$options.pluginOptions.type)) {
         console.warn('Dadata: Необходимо указать тип подсказок');
       }
     },
+
     mounted() {
       this.model = this.value;
       this.initSuggestion();
     },
-    destroyed() {
-      this.destroySuggestion();
-    },
-    watch: {
-      model() {
-        this.$emit('input', this.model);
-      },
-      value() {
-        this.model = this.value;
-      },
-    },
+
     methods: {
       /**
        * Инициализация модуля
        */
       initSuggestion() {
-        this.currentOptions = Object.assign({}, this.defaultOptions);
-        if (this.options) {
-          this.currentOptions = Object.assign(this.currentOptions, this.options);
-        }
+        this.currentOptions = {...this.currentOptions, ...this.defaultOptions};
+        this.currentOptions = {...this.currentOptions, ...this.$options.pluginOptions};
+        this.currentOptions = {...this.currentOptions, ...this.options};
+
         this.currentOptions = Object.assign(this.currentOptions, {
           onSelect: suggestion => {
             this.$emit('update:fullInfo', suggestion);
@@ -98,6 +92,7 @@
         });
         $(this.$el).suggestions(this.currentOptions);
       },
+
       destroySuggestion() {
         const plugin = $(this.$el).suggestions();
         plugin.dispose();
@@ -112,6 +107,19 @@
         } else {
           this.model = suggestion.data[this.fieldValue];
         }
+      },
+    },
+
+    destroyed() {
+      this.destroySuggestion();
+    },
+
+    watch: {
+      model() {
+        this.$emit('input', this.model);
+      },
+      value() {
+        this.model = this.value;
       },
     },
   };
