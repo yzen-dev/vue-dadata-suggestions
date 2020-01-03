@@ -10,7 +10,7 @@
 
 <script>
   import $ from 'jquery';
-  import './dadata.js';
+  import '../dadata.js';
 
   export default {
     name: 'DadataSuggestions',
