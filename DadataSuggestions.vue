@@ -43,17 +43,12 @@
           triggerSelectOnBlur: false,
           triggerSelectOnEnter: false,
           addon: 'none',
-          onSelect(suggestion) {
-            //console.log(suggestion);
-          },
         },
       };
     },
     created() {
-      //this.options.type = this.typeDadata;
     },
     mounted() {
-      this.callbacks = $.Callbacks();
       this.model = this.value;
       this.initSuggestion();
     },
@@ -70,13 +65,11 @@
     },
     methods: {
       initSuggestion() {
-        this.callbacks.add(this.onSelect);
-        this.callbacks.add(this.options.onSelect || $.noop);
         const options = Object.assign({}, this.options, {
           onSelect: suggestion => {
             this.$emit('update:fullInfo', suggestion);
             this.$emit('change', suggestion);
-            this.callbacks.fire(suggestion);
+            this.onSelect(suggestion)
           },
         });
         $(this.$el).suggestions(options);
@@ -89,7 +82,6 @@
         if (this.fieldValue === 'value' || this.fieldValue === 'unrestricted_value') {
           this.model = suggestion[this.fieldValue];
         } else {
-          this.model = '';
           this.model = suggestion.data[this.fieldValue];
         }
       },
