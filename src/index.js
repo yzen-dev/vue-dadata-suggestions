@@ -7,7 +7,7 @@ DadataSuggestions.install = function(Vue, options){
 };
 
 if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(suggestions)
+    window.Vue.use(DadataSuggestions)
 }
 
 export default DadataSuggestions
