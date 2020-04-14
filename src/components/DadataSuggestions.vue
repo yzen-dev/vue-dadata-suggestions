@@ -90,6 +90,13 @@
             this.onSelect(suggestion);
           },
         });
+        this.currentOptions = Object.assign(this.currentOptions, {
+            onSearchError: (q,w,e,r,t) => {
+            if (w.status === 403){
+                console.warn('Ошибка доступа! \n ' + w.responseJSON.message)
+            }
+          },
+        });
         $(this.$el).suggestions(this.currentOptions);
       },
 
