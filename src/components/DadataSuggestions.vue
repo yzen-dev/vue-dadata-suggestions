@@ -1,6 +1,7 @@
 <template>
     <input
             v-model="model"
+            class="dadata-input"
             @change="$emit('change')"
             type="text"
             autocomplete="off"
@@ -133,6 +134,13 @@
 </script>
 
 <style>
+    .dadata-input {
+        border-radius: 5px;
+        padding: 10px 15px;
+        border: 1px solid rgba(29, 29, 27, 0.3);
+        transition: all 0.2s ease;
+    }
+
     .suggestions-nowrap {
         white-space: nowrap
     }
