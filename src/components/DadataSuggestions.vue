@@ -61,11 +61,12 @@
       };
     },
     created() {
-      if (!this.currentOptions.token && (this.options && !this.options.token) && (this.$options.pluginOptions && !this.$options.pluginOptions.token)) {
+      this.parseOptions()
+      if (!this.currentOptions.token) {
         console.warn('Dadata: Необходимо указать API-токен');
       }
 
-      if (!this.currentOptions.type && (this.options && !this.options.type) && (this.$options.pluginOptions && !this.$options.pluginOptions.type)) {
+      if (!this.currentOptions.type) {
         console.warn('Dadata: Необходимо указать тип подсказок');
       }
     },
@@ -76,28 +77,32 @@
     },
 
     methods: {
+        parseOptions(){
+            this.currentOptions = {...this.currentOptions, ...this.defaultOptions};
+            this.currentOptions = {...this.currentOptions, ...this.$options.pluginOptions};
+            this.currentOptions = {...this.currentOptions, ...this.options};
+            if (this.token) this.currentOptions.token = this.token;
+            if (this.type) this.currentOptions.type = this.type;
+            
+            this.currentOptions = Object.assign(this.currentOptions, {
+                onSelect: suggestion => {
+                    this.$emit('update:fullInfo', suggestion);
+                    this.$emit('change', suggestion);
+                    this.onSelect(suggestion);
+                },
+            });
+            this.currentOptions = Object.assign(this.currentOptions, {
+                onSearchError: (q,w,e,r,t) => {
+                    if (w.status === 403){
+                        console.warn('Ошибка доступа! \n ' + w.responseJSON.message)
+                    }
+                },
+            });
+        },
       /**
        * Инициализация модуля
        */
       initSuggestion() {
-        this.currentOptions = {...this.currentOptions, ...this.defaultOptions};
-        this.currentOptions = {...this.currentOptions, ...this.$options.pluginOptions};
-        this.currentOptions = {...this.currentOptions, ...this.options};
-
-        this.currentOptions = Object.assign(this.currentOptions, {
-          onSelect: suggestion => {
-            this.$emit('update:fullInfo', suggestion);
-            this.$emit('change', suggestion);
-            this.onSelect(suggestion);
-          },
-        });
-        this.currentOptions = Object.assign(this.currentOptions, {
-            onSearchError: (q,w,e,r,t) => {
-            if (w.status === 403){
-                console.warn('Ошибка доступа! \n ' + w.responseJSON.message)
-            }
-          },
-        });
         $(this.$el).suggestions(this.currentOptions);
       },
 
