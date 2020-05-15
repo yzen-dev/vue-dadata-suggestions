@@ -10,7 +10,7 @@ $ npm i vue-dadata-suggestions
 
 ### **Регистрация компонента**
 ```
-import DadataSuggestions from 'dadata-suggestions'
+import DadataSuggestions from 'vue-dadata-suggestions'
 
 Vue.use(DadataSuggestions,{
   token: 'YOUR_TOKEN',
