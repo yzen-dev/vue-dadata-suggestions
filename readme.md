@@ -1,4 +1,6 @@
 # **Vue компонент для подсказок Dadata.ru**
+<a href="https://npmcharts.com/compare/vue-dadata-suggestions?minimal=true" target="_blank"><img alt="npm" src="https://img.shields.io/npm/dm/vue-dadata-suggestions"></a>
+<a href="https://npmcharts.com/compare/vue-dadata-suggestions?minimal=true" target="_blank"><img alt="npm" src="https://img.shields.io/npm/dt/vue-dadata-suggestions"></a>
 
 ## **Установка**
 ### **npm**
