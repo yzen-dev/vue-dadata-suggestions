@@ -2,7 +2,6 @@
   <input
       v-model="model"
       class="dadata-input"
-      @change="$emit('change')"
       type="text"
       autocomplete="off"
   >
