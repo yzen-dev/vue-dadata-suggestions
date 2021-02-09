@@ -103,6 +103,7 @@ export default {
 
       this.currentOptions.partner = 'VUE.76941';
     },
+
     /**
      * Инициализация модуля
      */
@@ -118,12 +119,15 @@ export default {
     /**
      * Выбор элемента из списка
      */
-    onSelect(suggestion) {
+    async onSelect(suggestion) {
+      this.model = null
+      await this.$nextTick();
       if (this.fieldValue === 'value' || this.fieldValue === 'unrestricted_value') {
         this.model = suggestion[this.fieldValue];
       } else {
         this.model = suggestion.data[this.fieldValue];
       }
+      this.$emit('input', this.model);
     },
   },
 
@@ -132,9 +136,6 @@ export default {
   },
 
   watch: {
-    model() {
-      this.$emit('input', this.model);
-    },
     value() {
       this.model = this.value;
     },
