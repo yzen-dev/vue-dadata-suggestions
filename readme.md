@@ -98,6 +98,15 @@ import VueSuggestions from 'vue-suggestions';
 
 >**Все другие ключи будут автоматически браться из поля data, из расширенной информации по результату.**
 
+Для получения дочернего поля объекта можно указать всю цепочку вложености:
+```
+<dadata-suggestions
+    v-model="myObject"
+    type="PARTY"
+    fieldValue="name.short_with_opf"
+/>
+```
+В модель будет сохранено значение из `data.name.short_with_opf` 
 
 ## License
 MIT © [yzen.dev](https://github.com/yzen-dev)
