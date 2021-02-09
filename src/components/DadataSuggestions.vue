@@ -125,7 +125,11 @@ export default {
       if (this.fieldValue === 'value' || this.fieldValue === 'unrestricted_value') {
         this.model = suggestion[this.fieldValue];
       } else {
-        this.model = suggestion.data[this.fieldValue];
+        let result = suggestion.data;
+        this.fieldValue.split('.').forEach((item, index) => {
+          result = result[item];
+        })
+        this.model = result;
       }
       this.$emit('input', this.model);
     },
