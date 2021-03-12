@@ -4,6 +4,7 @@
       class="dadata-input"
       type="text"
       autocomplete="off"
+      @change="$emit('change', model)"
   >
 </template>
 
