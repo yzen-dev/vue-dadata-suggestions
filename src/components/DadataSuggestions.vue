@@ -4,7 +4,7 @@
       class="dadata-input"
       type="text"
       autocomplete="off"
-      @change="$emit('change', model)"
+      @change="onChange"
   >
 </template>
 
@@ -134,6 +134,18 @@ export default {
       }
       this.$emit('input', this.model);
     },
+
+    onChange() {
+      if (this.model === null || this.model === '') {
+        this.$emit('update:fullInfo', null);
+      }
+      if (typeof this.model === 'string') {
+        this.$emit('update:fullInfo', null);
+      }
+      this.$emit('input', this.model);
+      this.$emit('change', this.model);
+    },
+
   },
 
   destroyed() {
