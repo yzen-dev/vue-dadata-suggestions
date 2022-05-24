@@ -138,9 +138,10 @@ export default {
     onChange() {
       if (this.model === null || this.model === '') {
         this.$emit('update:fullInfo', null);
-      }
-      if (typeof this.model === 'string') {
-        this.$emit('update:fullInfo', null);
+      } else {
+        if (this.model !== this.fullInfo?.value) {
+          this.$emit('update:fullInfo', null);
+        }
       }
       this.$emit('input', this.model);
       this.$emit('change', this.model);
