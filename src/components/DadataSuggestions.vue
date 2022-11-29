@@ -1,6 +1,7 @@
 <template>
   <input
       v-model="model"
+      @input="onInput"
       class="dadata-input"
       type="text"
       autocomplete="off"
@@ -145,6 +146,11 @@ export default {
       }
       this.$emit('input', this.model);
       this.$emit('change', this.model);
+    },
+    
+    onInput() {
+      this.$emit('input', this.model);
+      this.$emit('update:fullInfo', null);
     },
 
   },
